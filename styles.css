@@ -61,6 +61,7 @@ body {
 .main-content * {
     margin-left: 40px;
     margin-right: 40px;
+    font-size: 20px;
 }
 
 .footer {
@@ -103,18 +104,18 @@ body {
 }
 
 .section {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .section-heading {
   font-weight: bold;
-  font-size: 25px;
-  margin-bottom: 10px;
+  font-size: 30px;
+  margin-bottom: 20px;
 }
 
 .divider {
   border-top: 1px solid #000;
-  margin: 20px 0;
+  margin: 10px 0;
 }
 
 table {
@@ -123,6 +124,14 @@ table {
 }
 
 th, td {
-  padding: 10px 20px;
-  font-size: 18px;
+  padding: 10px 30px;
+}
+
+.publication-list li {
+  padding: 10px;
+}
+
+.publication-list li a {
+  margin: 0;
+  padding: 0;
 }
