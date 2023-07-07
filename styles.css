@@ -9,23 +9,35 @@ body {
     background-color: #f8f9fa;
 }
 
+.header h1 {
+    font-size: 40px;
+}
+
+.header p {
+    font-weight: normal;
+    font-size: 20px;
+}
+
 .nav {
     background-color: #f8f9fa;
     overflow: hidden;
-    padding: 15px;
-    margin-bottom: 10px;
+    padding: 15px 40px;
+    margin: 20px auto;
+    max-width: 1200px;
+    font-size: 25px;
 }
 
 .nav ul {
     list-style-type: none;
-    margin: 0;
-    padding: 0;
+    margin: 10px;
+    padding: 10px;
     overflow: hidden;
-    background-color: #333;
+    background-color: #660874;
+    text-align: center;  /* Center the list items */
 }
 
 .nav li {
-    float: left;
+    display: inline-block;  /* Change from float to inline-block */
 }
 
 .nav li a {
@@ -40,8 +52,15 @@ body {
     background-color: #111;
 }
 
+
 .main-content {
-    margin: 15px;
+    margin: 20px auto;
+    max-width: 1200px;
+}
+
+.main-content * {
+    margin-left: 40px;
+    margin-right: 40px;
 }
 
 .footer {
@@ -54,11 +73,15 @@ body {
 
 #main {
     display: flex;
-    gap: 10px;
+    gap: 10px 30px;
+    margin: 20px auto;
+    font-size: 20px;
+    max-width: 1200px;
 }
 
+
 #intro {
-    flex: 80%;
+    flex: 75%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -66,7 +89,7 @@ body {
 }
 
 #photo {
-    flex: 20%;
+    flex: 25%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -79,26 +102,27 @@ body {
     border-radius: 50%;
 }
 
-    .section {
-      margin-bottom: 20px;
-    }
+.section {
+  margin-bottom: 20px;
+}
 
-    .section-heading {
-      font-weight: bold;
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
+.section-heading {
+  font-weight: bold;
+  font-size: 25px;
+  margin-bottom: 10px;
+}
 
-    .divider {
-      border-top: 1px solid #000;
-      margin: 20px 0;
-    }
+.divider {
+  border-top: 1px solid #000;
+  margin: 20px 0;
+}
 
-    table {
-      max-width: 100%;
-      border-collapse: collapse;
-    }
+table {
+  max-width: 100%;
+  border-collapse: collapse;
+}
 
-    th, td {
-      padding: 10px 20px;
-    }
+th, td {
+  padding: 10px 20px;
+  font-size: 18px;
+}
