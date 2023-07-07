@@ -1,20 +1,38 @@
-<!doctype html>
-<html class="min-height-full">
-
+<!DOCTYPE html>
+<html>
 <head>
-  <title>Zhicai Zhang</title>
+    <title>Personal Website</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script> 
+        $(function(){
+            $("#header").load("header.html");
+            $("#nav").load("nav.html");
+            $("#footer").load("footer.html"); 
+        });
+    </script>
 </head>
-
 <body>
-   <div id="main">
+    <div id="header"></div>
+    <div id="nav"></div>
 
+      <div id="main">
+            <div id="intro">
+                <p>
+                    I am a Chamberlain Fellow at Lawrence Berkeley National Laboratory working on experimental particle physics. 
+                    <br>
+                    <br>
+                    I will join the Department of Engineering Physics at Tsinghua University as an Assistant Professor starting from Spring 2024.
+                </p>
+            </div>
+            <div id="photo">
+                <img src="images/ZhicaiZhang.jpg" alt="Profile Image">
 
-    <h1 align="center"> Zhicai Zhang </h1>
-    <h3 align="center"> Hello! </h3>
+            </div>
+      </div>
 
-
-  </div><!--close main-->
-
-
+    </div>
+    <div id="footer"></div>
 </body>
 </html>
+

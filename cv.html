@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CV - Personal Website</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script> 
+        $(function(){
+            $("#header").load("header.html");
+            $("#nav").load("nav.html");
+            $("#footer").load("footer.html"); 
+        });
+    </script>
+</head>
+<body>
+    <div id="header"></div>
+    <div id="nav"></div>
+    <div class="main-content">
+        <!-- Your CV goes here -->
+
+  <h1>Zhicai Zhang</h1>
+  <p>Lawrence Berkeley National Laboratory <br> 1 Cyclotron Road <br> Berkeley <br> CA 94720 <br> Office: 50B-6220 <br> Email: <a href="mailto:zhicaizhang@lbl.gov"> zhicaizhang@lbl.gov </a></p>
+
+  <div class="divider"></div>
+  <div class="section">
+    <h2 class="section-heading">Education</h2>
+    <table>
+      <tr>
+        <td>California Institute of Technology</td>
+        <td>Ph.D. in Physics</td>
+        <td>2015-2021</td>
+      </tr>
+      <tr>
+        <td>Tsinghua University</td>
+        <td>B.E. in Engineeging Physics</td>
+        <td>2011-2015</td>
+      </tr>
+    </table>
+
+  </div>
+
+  <div class="divider"></div>
+  <div class="section">
+    <h2 class="section-heading">Employment</h2>
+    <table>
+      <tr>
+        <td>Tsinghua University, Department of Engineering Physics</td>
+        <td>Assistant Professor</td>
+        <td>Starting from Spring 2024</td>
+      </tr>
+      <tr>
+        <td>Lawrence Berkeley National Laboratory, Physics Division</td>
+        <td>Chamberlain Fellow</td>
+        <td>2021-2024</td>
+      </tr>
+    </table>
+
+  </div>
+
+  <div class="divider"></div>
+  <div class="section">
+    <h2 class="section-heading">Awards and Honors</h2>
+    <table>
+        <tr>
+            <td>Universities Research Association Thesis Award</td>
+            <td>2021</td>
+        </tr>
+        <tr>
+            <td>Outstanding Undergraduate Thesis, Tsinghua University</td>
+            <td>2015</td>
+        </tr>
+    </table>
+  </div>
+
+
+  
+  <div class="divider"></div>
+    </div>
+    <div id="footer"></div>
+</body>
+</html>
+
