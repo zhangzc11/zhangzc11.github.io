@@ -64,6 +64,7 @@ body {
     font-size: 20px;
 }
 
+
 .footer {
     text-align: center;
     padding: 20px;
@@ -103,6 +104,37 @@ body {
     border-radius: 50%;
 }
 
+.project-section {
+    display: flex;
+    gap: 0px;
+}
+
+
+#project {
+    flex: 40%;
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    margin-left: -50px;
+    margin-right: -50px;
+}
+
+#project-plot {
+    flex: 60%;
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    margin-left: -50px;
+    margin-right: -50px;
+}
+
+
+#project-plot img {
+    max-width: 100%;
+    height: auto;
+}
+
+
 .section {
   margin-bottom: 10px;
 }
@@ -128,11 +160,12 @@ th, td {
   font-size: 20px;
 }
 
-.publication-list li {
+.main-list li {
   padding: 10px;
 }
 
-.publication-list li a {
+
+.main-list li a {
   margin: 0;
   padding: 0;
 }
@@ -141,3 +174,4 @@ th, td {
   margin: 0;
   padding: 0;
 }
+
