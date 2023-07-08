@@ -125,6 +125,7 @@ table {
 
 th, td {
   padding: 10px 30px;
+  font-size: 20px;
 }
 
 .publication-list li {
