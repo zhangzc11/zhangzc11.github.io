@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <title>Bonus Call</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 50px;
+            width: 90%;
+            max-width: 1800px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .course-selector {
+            margin: 20px 0;
+            font-size: 1.5rem;
+        }
+        select {
+            padding: 10px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+        .student-name {
+            font-size: 100px;
+            margin: 30px 0;
+            color: #333;
+            min-height: 50px;
+        }
+        .student-info {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .buttons {
+            margin: 50px 0;
+        }
+        .btn {
+            padding: 12px 25px;
+            font-size: 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .btn-red {
+            background-color: #ff4d4d;
+            color: white;
+        }
+        .btn-green {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .login-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            margin-top: 50px;
+        }
+        .login-input {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .login-btn:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: #ff4d4d;
+            margin: 10px 0;
+        }
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #666;
+            text-decoration: none;
+        }
+        .records {
+            margin-top: 30px;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        .record-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .status-message {
+            margin: 10px 0;
+            min-height: 20px;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 登录界面 -->
+<div id="login-section" class="login-box">
+    <h1>Bonus Call</h1>
+    <div id="error-message" class="error-message"></div>
+    <input type="password" id="password" class="login-input" placeholder="请输入密码">
+    <button onclick="login()" class="login-btn">登录</button>
+</div>
+
+<!-- 主应用界面 -->
+<div id="app" style="display:none;">
+    <a href="#" onclick="logout()" class="logout-btn">退出登录</a>
+    <div class="container">
+        <h1>Bonus Call</h1>
+        <div class="course-selector">
+            选择课程：
+            <select id="course-select">
+                <option value="1">基础物理学3</option>
+                <option value="2">高能物理实验专题</option>
+            </select>
+        </div>
+        
+        <div id="student-name" class="student-name">准备开始</div>
+        <div id="student-info" class="student-info">
+            点击下方按钮开始随机点名
+        </div>
+        
+        <div class="buttons">
+            <button onclick="nextStudent('red')" class="btn btn-red">下一个</button>
+            <button onclick="nextStudent('green')" class="btn btn-green">下一个</button>
+        </div>
+        
+        <div id="status-message" class="status-message"></div>
+        
+        <div class="info">
+            总学生数: <span id="total">0</span> | 
+            已点名: <span id="called-count">0</span>
+        </div>
+        
+        <div class="records">
+            <h3>最近记录</h3>
+            <div id="records-list"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 状态管理
+    let state = {
+        students: [],
+        currentStudent: null,  // 当前显示的学生（下次点击将保存这个）
+        nextStudent: null,     // 预加载的下一个学生
+        records: [],
+        isLoggedIn: false,
+        currentCourse: "1" // 默认选择第一门课
+    };
+    
+    // 初始化
+    document.addEventListener('DOMContentLoaded', () => {
+        // 监听课程选择变化
+        document.getElementById('course-select').addEventListener('change', function() {
+            state.currentCourse = this.value;
+            loadStudents();
+        });
+        
+        checkLoginStatus();
+    });
+    
+    // 加载学生数据
+    function loadStudents() {
+        const courseFile = `names${state.currentCourse}.json`;
+        fetch(courseFile)
+            .then(response => response.json())
+            .then(data => {
+                state.students = data;
+                state.records = []; // 切换课程时清空记录
+                state.nextStudent = getRandomStudent(); // 预加载第一个学生
+                updateCalledCount();
+                document.getElementById("total").textContent = state.students.length;
+                updateStudentDisplay();
+            })
+            .catch(error => {
+                console.error("加载学生数据失败:", error);
+                document.getElementById("student-name").textContent = "数据加载失败";
+            });
+    }
+    
+    // 随机获取学生
+    function getRandomStudent() {
+        return state.students.length > 0 ? 
+            state.students[Math.floor(Math.random() * state.students.length)] : 
+            null;
+    }
+    
+    // 检查登录状态
+    function checkLoginStatus() {
+        if (sessionStorage.getItem('rollcall_logged_in') === 'true') {
+            state.isLoggedIn = true;
+            document.getElementById("login-section").style.display = "none";
+            document.getElementById("app").style.display = "block";
+            loadStudents();
+        }
+    }
+    
+    // 登录功能
+    async function login() {
+        const password = document.getElementById("password").value;
+        const errorElement = document.getElementById("error-message");
+        
+        try {
+            const response = await fetch('auth.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `password=${encodeURIComponent(password)}`
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // 登录成功时重置记录
+                state.records = [];
+                state.currentStudent = null;
+                state.nextStudent = null;
+                sessionStorage.removeItem('rollcall_records');
+                updateCalledCount();
+
+                state.isLoggedIn = true;
+                sessionStorage.setItem('rollcall_logged_in', 'true');
+                document.getElementById("login-section").style.display = "none";
+                document.getElementById("app").style.display = "block";
+                errorElement.textContent = "";
+                
+                // 加载默认课程学生
+                loadStudents();
+            } else {
+                errorElement.textContent = result.message || "密码错误！";
+            }
+        } catch (error) {
+            errorElement.textContent = "网络错误，请重试";
+            console.error("登录请求失败:", error);
+        }
+    }
+    
+    // 退出登录
+    function logout() {
+        state.isLoggedIn = false;
+        sessionStorage.removeItem('rollcall_logged_in');
+        document.getElementById("login-section").style.display = "block";
+        document.getElementById("app").style.display = "none";
+        document.getElementById("password").value = "";
+    }
+    
+    // 点击"下一个"按钮
+    let isProcessing = false;
+    async function nextStudent(color) {
+        if (isProcessing) return;
+        isProcessing = true;
+        if (state.students.length === 0) {
+            showStatus("没有可用的学生数据", "error");
+            return;
+        }
+        
+        // 1. 如果有当前学生，先保存
+        if (state.currentStudent) {
+            await saveCurrentStudent(color);
+        }
+        
+        // 2. 将nextStudent变为current
+        state.currentStudent = state.nextStudent;
+        
+        // 3. 预加载新的nextStudent
+        state.nextStudent = getRandomStudent();
+        
+        // 4. 更新界面
+        updateStudentDisplay();
+        isProcessing = false;
+    }
+    
+    // 保存当前显示的学生
+    async function saveCurrentStudent(color) {
+        const student = state.currentStudent;
+        try {
+            const response = await fetch('record.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `name=${encodeURIComponent(student.姓名)}&id=${encodeURIComponent(student.学号)}&color=${color}&course=${state.currentCourse}`
+            });
+            
+            // 更新本地记录
+            const record = {
+                name: student.姓名,
+                id: student.学号,
+                color: color,
+                time: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' }),
+                course: state.currentCourse
+            };
+            
+            state.records.unshift(record);
+            updateRecordsDisplay();
+            
+            return true;
+        } catch (error) {
+            console.error("保存失败:", error);
+            showStatus("保存失败", "error");
+            return false;
+        }
+    }
+    
+    // 更新学生显示
+    function updateStudentDisplay() {
+        const displayStudent = state.currentStudent || { 姓名: "准备开始", 学号: "", 班级: "" };
+        
+        document.getElementById("student-name").textContent = displayStudent.姓名;
+        document.getElementById("student-info").innerHTML = 
+            displayStudent.学号 ? `学号: ${displayStudent.学号} | 班级: ${displayStudent.班级}` : 
+            "点击下方按钮开始随机点名";
+    }
+    
+    // 获取当前课程名称
+    function getCourseName() {
+        return state.currentCourse === "1" ? "基础物理学3" : "高能物理实验专题";
+    }
+    
+    // 更新已点名计数
+    function updateCalledCount() {
+        document.getElementById("called-count").textContent = state.records.length;
+        sessionStorage.setItem('rollcall_records', JSON.stringify(state.records));
+    }
+    
+    // 显示状态消息
+    function showStatus(message, type) {
+        const statusElement = document.getElementById("status-message");
+        statusElement.textContent = message;
+        statusElement.style.color = type === "error" ? "#ff4d4d" : 
+                                   type === "success" ? "#4CAF50" : "#666";
+    }
+    
+    // 更新记录显示
+    function updateRecordsDisplay() {
+        const recordsList = document.getElementById("records-list");
+        recordsList.innerHTML = "";
+        
+        // 只显示最近5条记录
+        state.records.slice(0, 5).forEach(record => {
+            const recordItem = document.createElement("div");
+            recordItem.className = "record-item";
+            recordItem.innerHTML = `
+                <span style="color:${record.color === 'red' ? '#ff4d4d' : '#4CAF50'}">●</span>
+                ${record.name} (${record.id}) - ${record.time}
+            `;
+            recordsList.appendChild(recordItem);
+        });
+        
+        updateCalledCount();
+    }
+</script>
+</body>
+</html>
